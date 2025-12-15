@@ -8,10 +8,10 @@ def get_connection():
 
 def init_db():
   conn = get_connection()
-  cursor = conn.cursor()
+  cur = conn.cursor()
   
   
-  cursor.execute("""
+  cur.execute("""
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT NOT NULL,
@@ -19,6 +19,17 @@ def init_db():
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )       
   """)
+  
+  conn.commit()
+  conn.close()
+  
+def add_task(description: str):
+  conn = get_connection()
+  cur = conn.cursor()
+  cur.execute(
+    "INSERT INTO tasks (description, status) VALUES(?, ?)", 
+    (description, "pending")
+  )
   
   conn.commit()
   conn.close()
