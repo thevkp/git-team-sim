@@ -1,5 +1,5 @@
 import sys
-from app.db import init_db, add_task
+from app.db import init_db, add_task, list_tasks
 
 
 def main():
@@ -15,6 +15,14 @@ def main():
     description = " ".join(sys.argv[2:])
     add_task(description)
     print("Task added succesfully")
+    
+  elif command == "list":
+    tasks = list_tasks()
+    if not tasks:
+      print("No tasks found")
+    else:
+      for task_id, desc in tasks:
+        print(f"{task_id}. {desc}")
     
     
 if __name__ == "__main__":

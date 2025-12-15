@@ -33,3 +33,14 @@ def add_task(description: str):
   
   conn.commit()
   conn.close()
+  
+  
+def list_tasks():
+  conn = sqlite3.connect(DB_PATH)
+  cur = conn.cursor()
+  
+  cur.execute("SELECT id, description FROM tasks")
+  rows = cur.fetchall()
+  
+  conn.close()
+  return rows
