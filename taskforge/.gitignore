@@ -1,2 +1,5 @@
 __pycache__/
 backup/
+app/db.py
+app/taskforge.db
+data/
