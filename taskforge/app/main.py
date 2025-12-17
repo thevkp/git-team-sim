@@ -49,8 +49,11 @@ def main():
       print("Error: Task id must be a number.")
       return
 
-    update_status(task_id)
-    print(f"status updated for task ID: {task_id}")
+    success = update_status(task_id)
+    if success:
+      print(f"status updated for task ID: {task_id}")
+    else:
+      print(f"No task found with ID: {task_id}")
   else:
     print(f"Unknown command: {command}")
     print("Available commands: add, list")
