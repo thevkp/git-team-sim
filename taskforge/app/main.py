@@ -70,7 +70,7 @@ def main():
     
     success = delete_task(task_id)
     if success:
-      print(f"Task delete with task ID: {task_id}")
+      print(f"Task deleted successfully (ID: {task_id})")
     else:
       print(f"No task found with ID: {task_id}")
   else:
