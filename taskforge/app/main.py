@@ -11,6 +11,15 @@ def print_tasks(tasks):
     print(f"   (id: {task_id})")
     print("-" * 40)
 
+def get_commands():
+  commands = {'add': 'python -m app.main add "task_description"',
+              'list': 'python -m app.main list "status(optional)"',
+              'update' : 'python -m app.main update "index"',
+              'delete' : 'python -m app.main delete index'
+              }
+
+  return commands
+
 def main():
   init_db()
   
@@ -105,7 +114,10 @@ def main():
 
   else:
     print(f"Unknown command: {command}")
-    print("Available commands: add, list")
+    print("Available commands: add, list, update, delete")
+    commands = get_commands()
+    for command in commands:
+      print(f"{command} : {commands[command]}")
     
   
     
