@@ -50,16 +50,26 @@ def main():
   elif command == "update":
     if len(sys.argv) < 3:
       print("Error: Task id is missing.")
-      print("Usage: python -m main.py update \"task_id\"")
+      print("Usage: python -m main.py update <index>")
       return
     
     try:
-      task_id = int(sys.argv[2])
+      index = int(sys.argv[2])
     except ValueError:
-      print("Error: Task id must be a number.")
+      print("Error: Index must be a number.")
       return
 
+    tasks = list_tasks()
+    
+  
+    if index < 1 or index > len(tasks):
+      print(f"Error: Index must be between 1 and {len(tasks)}")
+      return
+    
+    task_id = tasks[index - 1][0]
+    
     success = update_status(task_id)
+    
     if success:
       print(f"status updated for task ID: {task_id}")
     else:
