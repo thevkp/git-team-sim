@@ -71,9 +71,9 @@ def main():
     success = update_status(task_id)
     
     if success:
-      print(f"status updated for task ID: {task_id}")
+      print(f"status updated for task with index: {index}")
     else:
-      print(f"No task found with ID: {task_id}")
+      print(f"No task found with index: {index}")
   
   elif command == "delete":
     if len(sys.argv) < 3:
