@@ -15,7 +15,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT NOT NULL,
-      status TExT NOT NULL,
+      status TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )       
   """)
@@ -48,12 +48,6 @@ def list_tasks():
 def update_status(task_id):
   conn = get_connection()
   cur = conn.cursor()
-  
-  # if cur.rowcount == 0:
-  #   print("No task found with that ID.")
-  #   return
-  # else:
-  #   print("Task marked as complete.")
         
   cur.execute(
     "UPDATE tasks SET status = ? WHERE id = ?",
@@ -61,4 +55,56 @@ def update_status(task_id):
   )
   
   conn.commit()
+  
+  if cur.rowcount == 0:
+    conn.close()
+    return False #nothin updated
+  else:
+    conn.close()
+    return True
+  
+def get_tasks_by_status(status):
+  conn = get_connection()
+  cur = conn.cursor()
+  
+  cur.execute(
+    """SELECT id, description, status, created_at FROM
+    tasks WHERE status = ? ORDER BY id""", (status,)
+  )
+  
+  tasks = cur.fetchall()
   conn.close()
+  return tasks
+  pass
+  
+def delete_task(task_id):
+  conn = get_connection()
+  cur = conn.cursor()
+  
+  cur.execute(
+    "DELETE FROM tasks WHERE id = ?", (task_id,)
+  )
+  
+  conn.commit()
+  
+  if cur.rowcount == 0:
+    conn.close()
+    return False #Nothing deleted
+  else:
+    conn.close()
+    return True
+  
+def delete_tasks_by_status(status):
+  conn = get_connection()
+  cur = conn.cursor()
+  
+  cur.execute("DELETE FROM tasks WHERE status = ?", (status))
+  
+  conn.commit()
+  
+  if cur.rowcount == 0:
+    conn.close()
+    return False
+  else:
+    conn.close()
+    return True
