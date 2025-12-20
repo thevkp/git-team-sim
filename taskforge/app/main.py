@@ -2,6 +2,14 @@ import sys
 # from app.db import init_db, add_task, list_tasks, update_status, delete_task
 from app.db import *
 
+def print_tasks(tasks):
+  print("Tasks: ")
+  for index, (task_id, desc, status, created_at) in enumerate(tasks, start=1):
+    print(f"{index}. {desc}")
+    print(f"   status      : {status}")
+    print(f"   Created At  : {created_at}")
+    print(f"   (id: {task_id})")
+    print("-" * 40)
 
 def main():
   init_db()
@@ -27,16 +35,17 @@ def main():
     print(f"Task added: {description}")
     
   elif command == "list":
-    tasks = list_tasks()
-    if not tasks:
-      print("No tasks found")
+    if len(sys.argv) == 2:
+      tasks =list_tasks()
     else:
-      print("Tasks: ")
-      for task_id, desc, status, created_at in tasks:
-        print(f"{task_id}. Description  : {desc}")
-        print(f"   status       : {status}")
-        print(f"   Created At   : {created_at}")
-        print("-" * 40)
+      status = sys.argv[2]
+      if status not in ("pending", "completed"):
+        print("Error: status must be 'pending' or 'completed'")
+        return
+      
+      tasks = get_tasks_by_status(status)
+    
+    print_tasks(tasks)
     
   elif command == "update":
     if len(sys.argv) < 3:
@@ -69,10 +78,13 @@ def main():
       return
     
     success = delete_task(task_id)
+    
     if success:
       print(f"Task deleted successfully (ID: {task_id})")
     else:
       print(f"No task found with ID: {task_id}")
+
+
   else:
     print(f"Unknown command: {command}")
     print("Available commands: add, list")
