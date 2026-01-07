@@ -25,9 +25,9 @@ def main():
   
   if len(sys.argv) < 2: 
     print("Usage:")
-    print("   python main.py add \"task description\"")
-    print("   python main.py list")
-    print("   python main.py update task_id")
+    print("   python -m app.main add \"task description\"")
+    print("   python -m app.main list")
+    print("   python -m app.main update task_id")
     return 
   
   command = sys.argv[1].lower()
